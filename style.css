@@ -260,11 +260,13 @@ body {
   margin-bottom: 1.5rem;
   color: var(--text-secondary);
   font-size: 1.1rem;
+  text-align: justify; /* NOVO: Texto justificado para visual mais profissional no PC */
 }
 
 .about-info {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex; /* NOVO: Alterado de grid para flex para melhor alinhamento */
+  flex-wrap: wrap;
+  justify-content: space-between; 
   gap: 1rem;
   margin-top: 2rem;
 }
@@ -323,8 +325,10 @@ body {
 
 .portfolio-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  /* NOVO: auto-fill com maximo de 380px para não esticar na tela toda */
+  grid-template-columns: repeat(auto-fill, minmax(320px, 380px));
   gap: 2rem;
+  justify-content: center; /* NOVO: Centraliza os cards no meio da tela */
 }
 
 .project-card {
@@ -343,7 +347,7 @@ body {
 .project-image {
   position: relative;
   width: 100%;
-  height: 220px; /* Limita o tamanho das imagens */
+  height: 220px;
   overflow: hidden;
 }
 
@@ -360,7 +364,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(38, 74, 173, 0.85); /* Cor primária com opacidade */
+  background: rgba(38, 74, 173, 0.85);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -451,9 +455,10 @@ body {
 }
 
 .courses-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  display: flex; /* NOVO: Mudado para flex para alinhar os cursos bonitinhos lado a lado */
+  justify-content: center;
   gap: 1.5rem;
+  flex-wrap: wrap;
 }
 
 .course-item {
@@ -465,6 +470,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  width: 300px; /* NOVO: Trava a largura da caixinha */
 }
 
 .course-item:hover {
@@ -584,7 +590,7 @@ body {
   color: var(--secondary-color);
 }
 
-/* ===== Responsividade (Mobile) ===== */
+/* ===== Responsividade (Mobile e Tablet) ===== */
 @media (max-width: 900px) {
   .about-content, .contact-content {
     flex-direction: column;
@@ -617,7 +623,7 @@ body {
   }
 
   .github-link {
-    display: none; /* Esconde no mobile para dar espaço ao menu hambúrguer */
+    display: none;
   }
 
   .hero-container {
@@ -641,6 +647,6 @@ body {
   }
 
   .about-info {
-    grid-template-columns: 1fr;
+    justify-content: center; /* Centraliza itens no mobile */
   }
 }
