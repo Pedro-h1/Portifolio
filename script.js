@@ -56,6 +56,8 @@ let charIndex = 0
 let isDeleting = false
 
 function typeWriter() {
+  if(!typingText) return; // Garante que não quebre se não achar o texto
+  
   const currentText = texts[textIndex]
 
   if (isDeleting) {
@@ -87,29 +89,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Contact form handling
 const contactForm = document.getElementById("contactForm")
+if(contactForm) {
+  contactForm.addEventListener("submit", function (e) {
+    e.preventDefault()
 
-contactForm.addEventListener("submit", function (e) {
-  e.preventDefault()
+    const formData = new FormData(this)
+    const name = formData.get("name")
+    const email = formData.get("email")
+    const message = formData.get("message")
 
-  const formData = new FormData(this)
-  const name = formData.get("name")
-  const email = formData.get("email")
-  const message = formData.get("message")
+    // Create mailto link
+    const subject = encodeURIComponent(`Contato de ${name}`)
+    const body = encodeURIComponent(`Nome: ${name}\nEmail: ${email}\n\nMensagem:\n${message}`)
+    const mailtoLink = `mailto:pedrohenriqueprand@gmail.com?subject=${subject}&body=${body}`
 
-  // Create mailto link
-  const subject = encodeURIComponent(`Contato de ${name}`)
-  const body = encodeURIComponent(`Nome: ${name}\nEmail: ${email}\n\nMensagem:\n${message}`)
-  const mailtoLink = `mailto:lucasfaria201045@gmail.com?subject=${subject}&body=${body}`
+    // Open email client
+    window.location.href = mailtoLink
 
-  // Open email client
-  window.location.href = mailtoLink
+    // Reset form
+    this.reset()
 
-  // Reset form
-  this.reset()
-
-  // Show success message
-  alert("Obrigado pelo contato! Seu cliente de email será aberto para enviar a mensagem.")
-})
+    // Show success message
+    alert("Obrigado pelo contato! Seu cliente de email será aberto para enviar a mensagem.")
+  })
+}
 
 // Scroll animations
 const observerOptions = {
@@ -122,13 +125,14 @@ const observer = new IntersectionObserver((entries) => {
     if (entry.isIntersecting) {
       entry.target.style.opacity = "1"
       entry.target.style.transform = "translateY(0)"
+      observer.unobserve(entry.target); // Para de observar depois que anima
     }
   })
 }, observerOptions)
 
 // Observe elements for animation
 document.addEventListener("DOMContentLoaded", () => {
-  const animateElements = document.querySelectorAll(".project-card, .skill-item, .course-item, .education-item")
+  const animateElements = document.querySelectorAll(".project-card, .course-item, .education-item")
 
   animateElements.forEach((el) => {
     el.style.opacity = "0"
@@ -136,22 +140,6 @@ document.addEventListener("DOMContentLoaded", () => {
     el.style.transition = "opacity 0.6s ease, transform 0.6s ease"
     observer.observe(el)
   })
-})
-
-// Parallax effect for hero section
-window.addEventListener("scroll", () => {
-  const scrolled = window.pageYOffset
-  const parallax = document.querySelector(".profile-circle")
-  const speed = scrolled * 0.5
-
-  if (parallax) {
-    parallax.style.transform = `translateY(${speed}px)`
-  }
-})
-
-// Add loading animation
-window.addEventListener("load", () => {
-  document.body.classList.add("loaded")
 })
 
 // Navbar background on scroll
@@ -198,15 +186,9 @@ if (skillsSection) {
   })
 }
 
-// Add hover effects for project cards
-document.querySelectorAll(".project-card").forEach((card) => {
-  card.addEventListener("mouseenter", function () {
-    this.style.boxShadow = "0 20px 40px rgba(255, 215, 0, 0.1)"
-  })
-
-  card.addEventListener("mouseleave", function () {
-    this.style.boxShadow = "none"
-  })
+// Add loading animation
+window.addEventListener("load", () => {
+  document.body.classList.add("loaded")
 })
 
 // Console message for developers
